@@ -23,6 +23,47 @@ public class Graph<T> {
         }
     }
 
+    public void bfs(T start) {
+        Set<T> visited = new HashSet<>();
+        Queue<T> queue = new LinkedList<>();
+
+        visited.add(start);
+        queue.offer(start);
+
+        while (!queue.isEmpty()) {
+            T current = queue.poll();
+            System.out.print(current + " ");
+
+            List<Edge<T>> neighbors = map.get(current);
+            for (Edge<T> neighbor : neighbors) {
+                T neighborVertex = neighbor.vertex;
+                if (!visited.contains(neighborVertex)) {
+                    visited.add(neighborVertex);
+                    queue.offer(neighborVertex);
+                }
+            }
+        }
+    }
+
+    public void dfs(T start) {
+        Set<T> visited = new HashSet<>();
+        dfsHelper(start, visited);
+    }
+
+    private void dfsHelper(T current, Set<T> visited) {
+        visited.add(current);
+        System.out.print(current + " ");
+
+        List<Edge<T>> neighbors = map.get(current);
+        for (Edge<T> neighbor : neighbors) {
+            T neighborVertex = neighbor.vertex;
+            if (!visited.contains(neighborVertex)) {
+                dfsHelper(neighborVertex, visited);
+            }
+        }
+    }
+
+
     public Map<String, Object> findShortestPathDijkstra(T start, T end) {
         PriorityQueue<Node<T>> priorityQueue = new PriorityQueue<>();
         Map<T, Integer> distances = new HashMap<>();
