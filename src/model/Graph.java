@@ -4,87 +4,106 @@ import java.util.*;
 
 public class Graph<T> {
 
-    private Map<T, List<T>> map = new HashMap<>();
+    private Map<T, List<Edge<T>>> map = new HashMap<>();
 
-    public void addVertex(T s) {
-        map.put(s, new LinkedList<T>());
+    public void addVertex(T vertex) {
+        map.put(vertex, new LinkedList<Edge<T>>());
     }
 
-    public void addEdge(T data, T destination, boolean bidirectional) {
-        if (!map.containsKey(data))
-            addVertex(data);
+    public void addEdge(T source, T destination, int weight, boolean bidirectional) {
+        if (!map.containsKey(source))
+            addVertex(source);
 
         if (!map.containsKey(destination))
             addVertex(destination);
 
-        map.get(data).add(destination);
-        if (bidirectional == true) {
-            map.get(destination).add(data);
+        map.get(source).add(new Edge<>(destination, weight));
+        if (bidirectional) {
+            map.get(destination).add(new Edge<>(source, weight));
         }
     }
 
-    public int getVertexCount() {
-        return map.keySet().size();
-    }
+    public Map<String, Object> findShortestPathDijkstra(T start, T end) {
+        PriorityQueue<Node<T>> priorityQueue = new PriorityQueue<>();
+        Map<T, Integer> distances = new HashMap<>();
+        Map<T, T> previous = new HashMap<>();
 
-    public int getEdgesCount(boolean bidirectional) {
-        int count = 0;
-        for (T v : map.keySet()) {
-            count += map.get(v).size();
+        // Initialize distances with infinity
+        for (T vertex : map.keySet()) {
+            distances.put(vertex, Integer.MAX_VALUE);
         }
-        if (bidirectional == true) {
-            count = count / 2;
-        }
-        return count;
-    }
 
-    public String BFS(T start) {
-        Set<T> visited = new HashSet<>();
+        // Set distance of start vertex to 0
+        distances.put(start, 0);
 
-        Queue<T> queue = new LinkedList<>();
+        // Add start vertex to the priority queue
+        priorityQueue.offer(new Node<>(start, 0));
 
-        String msg = "";
-        visited.add(start);
-        queue.add(start);
+        while (!priorityQueue.isEmpty()) {
+            Node<T> current = priorityQueue.poll();
+            T currentVertex = current.vertex;
+            int currentDistance = current.distance;
 
-        while (!queue.isEmpty()) {
-            T vertex = queue.poll();
-            msg += vertex + " ";
+            // Skip if the current distance is already greater than the recorded distance
+            if (currentDistance > distances.get(currentVertex)) {
+                continue;
+            }
 
-            List<T> neighbors = map.get(vertex);
+            List<Edge<T>> neighbors = map.get(currentVertex);
 
-            for (T neighbor : neighbors) {
-                if (!visited.contains(neighbor)) {
-                    visited.add(neighbor);
-                    queue.add(neighbor);
+            for (Edge<T> neighbor : neighbors) {
+                T neighborVertex = neighbor.vertex;
+                int neighborDistance = neighbor.weight;
+
+                int totalDistance = currentDistance + neighborDistance;
+
+                // Update the distance and previous vertex if a shorter path is found
+                if (totalDistance < distances.get(neighborVertex)) {
+                    distances.put(neighborVertex, totalDistance);
+                    previous.put(neighborVertex, currentVertex);
+                    priorityQueue.offer(new Node<>(neighborVertex, totalDistance));
                 }
             }
         }
 
-        return msg;
+        List<T> path = new ArrayList<>();
+        T current = end;
+        while (current != null) {
+            path.add(current);
+            current = previous.get(current);
+        }
+        Collections.reverse(path);
+
+        // Return the shortest distance and path
+        Map<String, Object> result = new HashMap<>();
+        result.put("distance", distances.get(end));
+        result.put("path", path);
+
+        return result;
     }
 
-    public String DFS(T start) {
-        Set<T> visited = new HashSet<>();
+    private static class Node<T> implements Comparable<Node<T>> {
+        private T vertex;
+        private int distance;
 
-        return DFSHelper(start, visited);
-    }
-
-    private String DFSHelper(T vertex, Set<T> visited) {
-
-        String msg = "";
-
-        visited.add(vertex);
-        msg += vertex + " ";
-
-        List<T> neighbors = map.get(vertex);
-
-        for (T neighbor : neighbors) {
-            if (!visited.contains(neighbor)) {
-                DFSHelper(neighbor, visited);
-            }
+        public Node(T vertex, int distance) {
+            this.vertex = vertex;
+            this.distance = distance;
         }
 
-        return msg;
+        @Override
+        public int compareTo(Node<T> other) {
+            return Integer.compare(distance, other.distance);
+        }
+    }
+
+    private static class Edge<T> {
+        private T vertex;
+        private int weight;
+
+        public Edge(T vertex, int weight) {
+            this.vertex = vertex;
+            this.weight = weight;
+        }
     }
 }
