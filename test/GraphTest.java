@@ -1,6 +1,9 @@
 import model.Graph;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 
@@ -38,7 +41,7 @@ public class GraphTest {
         Graph<String> graph = new Graph<>();
         graph.addVertex("A");
         graph.addVertex("B");
-        graph.addEdge("A", "B", false);
+        graph.addEdge("A", "B", 5, false);
         assertEquals(1, graph.getEdgesCount(false));
     }
 
@@ -47,8 +50,8 @@ public class GraphTest {
         Graph<Integer> graph = new Graph<>();
         graph.addVertex(1);
         graph.addVertex(2);
-        graph.addEdge(1, 2, true);
-        graph.addEdge(3, 1, true);
+        graph.addEdge(1, 2, 6, true);
+        graph.addEdge(3, 1, 7, true);
         assertEquals(2, graph.getEdgesCount(true));
     }
 
@@ -59,11 +62,11 @@ public class GraphTest {
         graph.addVertex("B");
         graph.addVertex("C");
         graph.addVertex("D");
-        graph.addEdge("A", "B", false);
-        graph.addEdge("B", "C", false);
-        graph.addEdge("C", "D", false);
-        graph.addEdge("D", "A", false);
-        assertEquals("A B C D ", graph.BFS("A"));
+        graph.addEdge("A", "B", 1, false);
+        graph.addEdge("B", "C", 2, false);
+        graph.addEdge("C", "D", 3, false);
+        graph.addEdge("D", "A", 4, false);
+        assertEquals("A B C D ", graph.bfs("A"));
     }
 
     @Test
@@ -73,11 +76,11 @@ public class GraphTest {
         graph.addVertex(2);
         graph.addVertex(3);
         graph.addVertex(4);
-        graph.addEdge(1, 2, true);
-        graph.addEdge(2, 3, true);
-        graph.addEdge(3, 4, true);
-        graph.addEdge(4, 1, true);
-        assertEquals("1 2 4 3 ", graph.BFS(1));
+        graph.addEdge(1, 2, 5, true);
+        graph.addEdge(2, 3, 4, true);
+        graph.addEdge(3, 4, 3, true);
+        graph.addEdge(4, 1, 2, true);
+        assertEquals("1 2 4 3 ", graph.bfs(1));
     }
 
     @Test
@@ -88,10 +91,10 @@ public class GraphTest {
         graph.addVertex('C');
         graph.addVertex('D');
         graph.addVertex('E');
-        graph.addEdge('A', 'B', false);
-        graph.addEdge('B', 'C', false);
-        graph.addEdge('C', 'D', false);
-        assertEquals("E ", graph.BFS('E'));
+        graph.addEdge('A', 'B', 2, false);
+        graph.addEdge('B', 'C', 3, false);
+        graph.addEdge('C', 'D', 4, false);
+        assertEquals("E ", graph.bfs('E'));
     }
 
     @Test
@@ -101,11 +104,11 @@ public class GraphTest {
         graph.addVertex("B");
         graph.addVertex("C");
         graph.addVertex("D");
-        graph.addEdge("A", "B", false);
-        graph.addEdge("B", "C", false);
-        graph.addEdge("C", "D", false);
-        graph.addEdge("D", "A", false);
-        assertEquals("A ", graph.DFS("A"));
+        graph.addEdge("A", "B", 5, false);
+        graph.addEdge("B", "C", 8, false);
+        graph.addEdge("C", "D", 9, false);
+        graph.addEdge("D", "A", 2, false);
+        assertEquals("A ", graph.dfs("A"));
     }
 
     @Test
@@ -115,11 +118,11 @@ public class GraphTest {
         graph.addVertex(2);
         graph.addVertex(3);
         graph.addVertex(4);
-        graph.addEdge(1, 2, true);
-        graph.addEdge(2, 3, true);
-        graph.addEdge(3, 4, true);
-        graph.addEdge(4, 1, true);
-        assertEquals("1 ", graph.DFS(1));
+        graph.addEdge(1, 2, 5, true);
+        graph.addEdge(2, 3, 4, true);
+        graph.addEdge(3, 4, 3, true);
+        graph.addEdge(4, 1, 2, true);
+        assertEquals("1 ", graph.dfs(1));
     }
 
     @Test
@@ -130,9 +133,24 @@ public class GraphTest {
         graph.addVertex('C');
         graph.addVertex('D');
         graph.addVertex('E');
-        graph.addEdge('A', 'B', false);
-        graph.addEdge('B', 'C', false);
-        graph.addEdge('C', 'D', false);
-        assertEquals("E ", graph.DFS('E'));
+        graph.addEdge('A', 'B', 2, false);
+        graph.addEdge('B', 'C', 3, false);
+        graph.addEdge('C', 'D', 4, false);
+        assertEquals("E ", graph.dfs('E'));
+    }
+
+    @Test
+    public void testSimpleGraph() {
+        Graph<String> graph = new Graph<>();
+        graph.addEdge("A", "B", 2, true);
+        graph.addEdge("A", "C", 4, true);
+        graph.addEdge("B", "C", 1, true);
+        graph.addEdge("B", "D", 5, true);
+        graph.addEdge("C", "D", 3, true);
+
+        Map<String, Object> result = graph.Dijkstra("A", "D");
+
+        assertEquals(6, result.get("distance"));
+        assertEquals(List.of("A", "B", "C", "D"), result.get("path"));
     }
 }

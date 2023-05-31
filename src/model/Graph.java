@@ -23,16 +23,32 @@ public class Graph<T> {
         }
     }
 
-    public void bfs(T start) {
+    public int getVertexCount() {
+        return map.keySet().size();
+    }
+
+    public int getEdgesCount(boolean bidirectional) {
+        int count = 0;
+        for (T v : map.keySet()) {
+            count += map.get(v).size();
+        }
+        if (bidirectional == true) {
+            count = count / 2;
+        }
+        return count;
+    }
+
+    public String bfs(T start) {
         Set<T> visited = new HashSet<>();
         Queue<T> queue = new LinkedList<>();
 
+        String msg = "";
         visited.add(start);
         queue.offer(start);
 
         while (!queue.isEmpty()) {
             T current = queue.poll();
-            System.out.print(current + " ");
+            msg += current + " ";
 
             List<Edge<T>> neighbors = map.get(current);
             for (Edge<T> neighbor : neighbors) {
@@ -43,16 +59,20 @@ public class Graph<T> {
                 }
             }
         }
+
+        return msg;
     }
 
-    public void dfs(T start) {
+    public String dfs(T start) {
         Set<T> visited = new HashSet<>();
-        dfsHelper(start, visited);
+        return dfsHelper(start, visited);
     }
 
-    private void dfsHelper(T current, Set<T> visited) {
+    private String dfsHelper(T current, Set<T> visited) {
+        String msg = "";
+
         visited.add(current);
-        System.out.print(current + " ");
+        msg += current + " ";
 
         List<Edge<T>> neighbors = map.get(current);
         for (Edge<T> neighbor : neighbors) {
@@ -61,10 +81,12 @@ public class Graph<T> {
                 dfsHelper(neighborVertex, visited);
             }
         }
+
+        return msg;
     }
 
 
-    public Map<String, Object> findShortestPathDijkstra(T start, T end) {
+    public Map<String, Object> Dijkstra(T start, T end) {
         PriorityQueue<Node<T>> priorityQueue = new PriorityQueue<>();
         Map<T, Integer> distances = new HashMap<>();
         Map<T, T> previous = new HashMap<>();

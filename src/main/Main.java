@@ -61,7 +61,7 @@ public class Main {
         cities.addEdge("Cucuta", "Palmira", 530, true);
         cities.addEdge("Cucuta", "Tunja", 550, true);
 
-        Map<String, Object> result = cities.findShortestPathDijkstra("Manizales", "Monteria");
+        Map<String, Object> result = cities.Dijkstra("Manizales", "Monteria");
         int distance = (int) result.get("distance");
         List<String> path = (List<String>) result.get("path");
 
