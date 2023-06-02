@@ -51,11 +51,13 @@ public class Graph<T> {
             msg += current + " ";
 
             List<Edge<T>> neighbors = map.get(current);
-            for (Edge<T> neighbor : neighbors) {
-                T neighborVertex = neighbor.vertex;
-                if (!visited.contains(neighborVertex)) {
-                    visited.add(neighborVertex);
-                    queue.offer(neighborVertex);
+            if (neighbors != null) {
+                for (Edge<T> neighbor : neighbors) {
+                    T neighborVertex = neighbor.vertex;
+                    if (!visited.contains(neighborVertex)) {
+                        visited.add(neighborVertex);
+                        queue.offer(neighborVertex);
+                    }
                 }
             }
         }
@@ -147,14 +149,11 @@ public class Graph<T> {
 
     private static class Node<T> implements Comparable<Node<T>> {
         private T vertex;
-
-        private boolean distributionCenter;
         private int distance;
 
-        public Node(T vertex, int distance, boolean distributionCenter) {
+        public Node(T vertex, int distance) {
             this.vertex = vertex;
             this.distance = distance;
-            this.distributionCenter = distributionCenter;
         }
 
         @Override

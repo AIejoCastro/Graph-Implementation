@@ -6,11 +6,14 @@ import java.util.Map;
 
 public class Company {
     Graph<String> cities;
+    Graph<String> employees;
     public Company(){
         cities = new Graph<>();
+        employees = new Graph<>();
         insertValues();
     }
     public void insertValues(){
+        //Cities
         cities.addEdge("Bogota", "Medellin", 400, true);
         cities.addEdge("Bogota", "Ibague", 200, true);
         cities.addEdge("Bogota", "Manizales", 170, true);
@@ -62,9 +65,56 @@ public class Company {
         cities.addEdge("Cucuta", "Manizales", 550, true);
         cities.addEdge("Cucuta", "Medellin", 430, true);
         cities.addEdge("Cucuta", "Ibague", 430, true);
-        cities.addEdge("Cucuta", "Palmira", 530, true);
+        cities.addEdge("Cucuta", "SantaMarta", 530, true);
         cities.addEdge("Cucuta", "Tunja", 550, true);
 
+        //Employees
+        employees.addEdge("CEO", "CFO", 20, false);
+        employees.addEdge("CEO", "Marketing Director", 20, false);
+        employees.addEdge("CEO", "Sales Director", 20, false);
+        employees.addEdge("CEO", "Advertising Director", 20, false);
+        employees.addEdge("CEO", "HR Director", 20, false);
+
+        employees.addEdge("CFO", "Alvaro", 10, false);
+        employees.addEdge("CFO", "Beatriz", 10, false);
+        employees.addEdge("CFO", "David", 10, false);
+        employees.addEdge("CFO", "Alejandro", 10, false);
+        employees.addEdge("CFO", "Panchito", 10, false);
+
+        employees.addEdge("Marketing Director", "Martha", 10, false);
+        employees.addEdge("Marketing Director", "Daniela", 10, false);
+        employees.addEdge("Marketing Director", "Camila", 10, false);
+        employees.addEdge("Marketing Director", "Valentina", 10, false);
+        employees.addEdge("Marketing Director", "Isabella", 10, false);
+
+        employees.addEdge("Sales Director", "Laura", 10, false);
+        employees.addEdge("Sales Director", "Sebastian", 10, false);
+        employees.addEdge("Sales Director", "Danna", 10, false);
+        employees.addEdge("Sales Director", "Nicol", 10, false);
+        employees.addEdge("Sales Director", "Juliana", 10, false);
+
+        employees.addEdge("Advertising Director", "Dylan", 10, false);
+        employees.addEdge("Advertising Director", "Santiago", 10, false);
+        employees.addEdge("Advertising Director", "Juan", 10, false);
+        employees.addEdge("Advertising Director", "Camilo", 10, false);
+        employees.addEdge("Advertising Director", "Alexander", 10, false);
+
+        employees.addEdge("HR Director", "Matias", 10, false);
+        employees.addEdge("HR Director", "Mateo", 10, false);
+        employees.addEdge("HR Director", "Raul", 10, false);
+        employees.addEdge("HR Director", "Mariana", 10, false);
+        employees.addEdge("HR Director", "Lucas", 10, false);
+
+        employees.addEdge("Alvaro", "Martha", 5, true);
+        employees.addEdge("Panchito", "Alexander", 5, true);
+        employees.addEdge("Alejandro", "David", 5, true);
+        employees.addEdge("Mariana", "Valentina", 5, true);
+        employees.addEdge("Mateo", "Matias", 5, true);
+        employees.addEdge("Dylan", "Sebastian", 5, true);
+        employees.addEdge("Laura", "Camila", 5, true);
+        employees.addEdge("David", "Isabella", 5, true);
+        employees.addEdge("Santiago", "Raul", 5, true);
+        employees.addEdge("Isabella", "Raul", 5, true);
     }
 
 
@@ -73,8 +123,12 @@ public class Company {
         return result;
     }
 
-    public Graph<String> getGraph(){
+    public Graph<String> getCities(){
         return cities;
+    }
+
+    public Graph<String> getEmployees() {
+        return employees;
     }
 }
 
