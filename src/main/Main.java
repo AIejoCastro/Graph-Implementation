@@ -1,71 +1,63 @@
 package main;
 
-import model.Graph;
+import model.Company;
 
 import java.util.*;
 
 public class Main {
+
+    Company company = new Company();
+    Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
-        Graph<String> cities = new Graph<>();
-        cities.addEdge("Bogota", "Medellin", 400, true);
-        cities.addEdge("Bogota", "Ibague", 200, true);
-        cities.addEdge("Bogota", "Manizales", 170, true);
-        cities.addEdge("Bogota", "Bucaramanga", 320, true);
-        cities.addEdge("Bogota", "Cartagena", 660, true);
+        Main m = new Main();
+        m.menu();
 
-        cities.addEdge("Medellin", "Bogota", 400, true);
-        cities.addEdge("Medellin", "Barranquilla", 107, true);
-        cities.addEdge("Medellin", "Pereira", 180, true);
-        cities.addEdge("Medellin", "SantaMarta", 115, true);
-        cities.addEdge("Medellin", "Cucuta", 430, true);
 
-        cities.addEdge("Barranquilla", "Medellin", 107, true);
-        cities.addEdge("Barranquilla", "Cartagena", 130, true);
-        cities.addEdge("Barranquilla", "Villavicencio", 840, true);
-        cities.addEdge("Barranquilla", "Valledupar", 200, true);
-        cities.addEdge("Barranquilla", "Cali", 103, true);
 
-        cities.addEdge("Cartagena", "Barranquilla", 130, true);
-        cities.addEdge("Cartagena", "Bucaramanga", 840, true);
-        cities.addEdge("Cartagena", "Bogota", 660, true);
-        cities.addEdge("Cartagena", "Monteria", 690, true);
-        cities.addEdge("Cartagena", "Armenia", 870, true);
+    }
 
-        cities.addEdge("Bucaramanga", "Cartagena", 840, true);
-        cities.addEdge("Bucaramanga", "Bogota", 320, true);
-        cities.addEdge("Bucaramanga", "Pereira", 200, true);
-        cities.addEdge("Bucaramanga", "Neiva", 310, true);
-        cities.addEdge("Bucaramanga", "Sincelejo", 540, true);
+    public void menu(){
+        int option = 0;
 
-        cities.addEdge("Pereira", "Bucaramanga", 200, true);
-        cities.addEdge("Pereira", "Medellin", 180, true);
-        cities.addEdge("Pereira", "SantaMarta", 990, true);
-        cities.addEdge("Pereira", "Barrancabermeja", 430, true);
-        cities.addEdge("Pereira", "Riohacha", 640, true);
+        do{
+            System.out.println("Welcome to AMAZON delivery HELP system, please select an option: "+ "\n" +
+            "1. SHOW THE CHEAPEST WAY TO DELIVER A PRODUCT" + "\n" +
+            "2. PROBLEMA CON DFS" + "\n" +
+            "0. Exit");
+           option = sc.nextInt();
 
-        cities.addEdge("SantaMarta", "Pereira", 990, true);
-        cities.addEdge("SantaMarta", "Medellin", 115, true);
-        cities.addEdge("SantaMarta", "Manizales", 930, true);
-        cities.addEdge("SantaMarta", "Popayan", 100, true);
-        cities.addEdge("SantaMarta", "Buenaventura", 480, true);
+           switch (option){
+               case 1:
+                   showDistance();
+                   break;
+               case 2:
 
-        cities.addEdge("Manizales", "SantaMarta", 930, true);
-        cities.addEdge("Manizales", "Bogota", 170, true);
-        cities.addEdge("Manizales", "Cucuta", 550, true);
-        cities.addEdge("Manizales", "Soledad", 690, true);
-        cities.addEdge("Manizales", "Florencia", 460, true);
+                   break;
+               case 0:
+                   System.out.println("Exiting program...");
+                   break;
+               default:
+                   System.out.println("Please verifiy your selection, you fucking idiot");
+                   break;
 
-        cities.addEdge("Cucuta", "Manizales", 550, true);
-        cities.addEdge("Cucuta", "Medellin", 430, true);
-        cities.addEdge("Cucuta", "Ibague", 430, true);
-        cities.addEdge("Cucuta", "Palmira", 530, true);
-        cities.addEdge("Cucuta", "Tunja", 550, true);
+           }
 
-        Map<String, Object> result = cities.Dijkstra("Manizales", "Monteria");
+        }while(option!=0);
+
+
+    }
+
+    public void showDistance(){
+        String city1,city2;
+            System.out.println("Enter the source city: ");
+            city1 = sc.next();
+            System.out.println("Enter the destination city: ");
+            city2 = sc.next();
+
+        Map<String,Object> result=  company.showDistanceC(city1,city2);
         int distance = (int) result.get("distance");
         List<String> path = (List<String>) result.get("path");
-
-        System.out.println("Shortest distance: " + distance);
+        System.out.println("Total cost: " + distance*10 + "$");
         System.out.println("Shortest path: " + path);
 
     }

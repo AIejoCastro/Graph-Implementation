@@ -1,4 +1,4 @@
-import model.Graph;
+import structures.Graph;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
