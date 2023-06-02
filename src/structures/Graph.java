@@ -147,6 +147,40 @@ public class Graph<T> {
         return result;
     }
 
+    public int[][] floydWarshall() {
+        int size = map.keySet().size();
+        int[][] dist = new int[size][size];
+        T[] vertices = map.keySet().toArray((T[]) new Object[size]);
+
+        // Initialize the distance matrix
+        for (int i = 0; i < size; i++) {
+            Arrays.fill(dist[i], Integer.MAX_VALUE);
+            dist[i][i] = 0;
+        }
+
+        // Set the initial distances from the edges
+        for (int i = 0; i < size; i++) {
+            List<Edge<T>> edges = map.get(vertices[i]);
+            for (Edge<T> edge : edges) {
+                int j = Arrays.asList(vertices).indexOf(edge.vertex);
+                dist[i][j] = edge.weight;
+            }
+        }
+
+        // Apply Floyd Warshall algorithm
+        for (int k = 0; k < size; k++) {
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (dist[i][k] != Integer.MAX_VALUE && dist[k][j] != Integer.MAX_VALUE) {
+                        dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
+                    }
+                }
+            }
+        }
+
+        return dist;
+    }
+
     private static class Node<T> implements Comparable<Node<T>> {
         private T vertex;
         private int distance;

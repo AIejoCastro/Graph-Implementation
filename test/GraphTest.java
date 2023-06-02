@@ -153,4 +153,56 @@ public class GraphTest {
         assertEquals(6, result.get("distance"));
         assertEquals(List.of("A", "B", "C", "D"), result.get("path"));
     }
+
+    @Test
+    void testFloydWarshallSingleEdge() {
+        Graph<String> graph = new Graph<>();
+        graph.addEdge("A", "B", 5, false);
+
+        int[][] result = graph.floydWarshall();
+
+        assertEquals(0, result[0][0]); // Distance from A to A
+        assertEquals(5, result[0][1]); // Distance from A to B
+        assertEquals(Integer.MAX_VALUE, result[1][0]); // Distance from B to A
+        assertEquals(0, result[1][1]); // Distance from B to B
+    }
+
+    @Test
+    void testFloydWarshallDisconnectedVertices() {
+        Graph<String> graph = new Graph<>();
+        graph.addEdge("A", "B", 5, false);
+        graph.addEdge("C", "D", 10, false);
+
+        int[][] result = graph.floydWarshall();
+
+        assertEquals(0, result[0][0]); // Distance from A to A
+        assertEquals(5, result[0][1]); // Distance from A to B
+        assertEquals(0, result[1][1]); // Distance from B to B
+        assertEquals(0, result[2][2]); // Distance from C to C
+        assertEquals(10, result[2][3]); // Distance from C to D
+        assertEquals(0, result[3][3]); // Distance from D to D
+    }
+
+    @Test
+    void testFloydWarshallCompleteGraph() {
+        Graph<String> graph = new Graph<>();
+        graph.addEdge("A", "B", 5, false);
+        graph.addEdge("A", "C", 3, false);
+        graph.addEdge("B", "C", 1, false);
+        graph.addEdge("B", "D", 7, false);
+        graph.addEdge("C", "D", 2, false);
+
+        int[][] result = graph.floydWarshall();
+
+        assertEquals(0, result[0][0]); // Distance from A to A
+        assertEquals(5, result[0][1]); // Distance from A to B
+        assertEquals(3, result[0][2]); // Distance from A to C
+        assertEquals(5, result[0][3]); // Distance from A to D
+        assertEquals(0, result[1][1]); // Distance from B to B
+        assertEquals(1, result[1][2]); // Distance from B to C
+        assertEquals(3, result[1][3]); // Distance from B to D
+        assertEquals(0, result[2][2]); // Distance from C to C
+        assertEquals(2, result[2][3]); // Distance from C to D
+        assertEquals(0, result[3][3]); // Distance from D to D
+    }
 }
