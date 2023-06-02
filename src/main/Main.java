@@ -12,8 +12,6 @@ public class Main {
         Main m = new Main();
         m.menu();
 
-
-
     }
 
     public void menu(){
@@ -48,7 +46,8 @@ public class Main {
     }
 
     public void showDistance(){
-        String city1,city2;
+        /*
+       String city1,city2;
             System.out.println("Enter the source city: ");
             city1 = sc.next();
             System.out.println("Enter the destination city: ");
@@ -59,6 +58,14 @@ public class Main {
         List<String> path = (List<String>) result.get("path");
         System.out.println("Total cost: " + distance*10 + "$");
         System.out.println("Shortest path: " + path);
+
+
+
+         */
+
+
+       String answer = company.getGraph().bfs("Armenia");
+       System.out.println(answer);
 
     }
 }

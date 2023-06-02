@@ -72,4 +72,9 @@ public class Company {
         Map<String, Object> result = cities.Dijkstra(city1, city2);
         return result;
     }
+
+    public Graph<String> getGraph(){
+        return cities;
+    }
 }
+

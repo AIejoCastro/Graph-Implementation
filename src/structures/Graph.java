@@ -147,11 +147,14 @@ public class Graph<T> {
 
     private static class Node<T> implements Comparable<Node<T>> {
         private T vertex;
+
+        private boolean distributionCenter;
         private int distance;
 
-        public Node(T vertex, int distance) {
+        public Node(T vertex, int distance, boolean distributionCenter) {
             this.vertex = vertex;
             this.distance = distance;
+            this.distributionCenter = distributionCenter;
         }
 
         @Override
