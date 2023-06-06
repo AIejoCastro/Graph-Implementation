@@ -35,7 +35,7 @@ public class Main {
                    System.out.println("Exiting program...");
                    break;
                default:
-                   System.out.println("Please verifiy your selection, you fucking idiot");
+                   System.out.println("Please verifiy your selection");
                    break;
 
            }
