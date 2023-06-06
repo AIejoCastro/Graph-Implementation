@@ -39,6 +39,7 @@ public class Graph<T> {
     }
 
     public String bfs(T start) {
+        //BFS
         Set<T> visited = new HashSet<>();
         Queue<T> queue = new LinkedList<>();
 
@@ -66,11 +67,13 @@ public class Graph<T> {
     }
 
     public String dfs(T start) {
+        //DFS
         Set<T> visited = new HashSet<>();
         return dfsHelper(start, visited);
     }
 
     private String dfsHelper(T current, Set<T> visited) {
+        //DFS HELPER
         String msg = "";
 
         visited.add(current);
@@ -89,6 +92,7 @@ public class Graph<T> {
 
 
     public Map<String, Object> Dijkstra(T start, T end) {
+        //DIJKSTRA
         PriorityQueue<Node<T>> priorityQueue = new PriorityQueue<>();
         Map<T, Integer> distances = new HashMap<>();
         Map<T, T> previous = new HashMap<>();
@@ -201,6 +205,7 @@ public class Graph<T> {
         private int weight;
 
         public Edge(T vertex, int weight) {
+            //ATRIBUTES
             this.vertex = vertex;
             this.weight = weight;
         }
